@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    OfficeAddInServerAuth.Models.UserInfo userInfo = ViewBag.UserInfo;
+    OfficeAddInServerAuth.Models.SendMessageResponse messageResponse = ViewBag.MessageResponse;
+}
+
+<h2>Messages</h2>
+<br />
+
+<form>
+    <p>
+    <p>
+        You're now connected to Office 365!  Click <b>Send Mail</b> to send a message from your Office 365 account using unified API.
+    </p>
+    <b>To:</b> @Html.EditorFor(m => userInfo.Address, new { htmlAttributes = new { style = "Width:350px" } })
+    </p>
+    <br />
+
+    <p>
+        <button formaction="@Url.Content("~/Message/SendMessageSubmit")">Send Mail</button>
+    </p>
+
+</form>
+
+
+<div>
+    @{  if (messageResponse.Status == OfficeAddInServerAuth.Models.SendMessageStatusEnum.Sent)
+        {
+        <p>Successfully sent an email to @userInfo.Address!</p>
+        }
+        else if (messageResponse.Status == OfficeAddInServerAuth.Models.SendMessageStatusEnum.Fail)
+        {
+            <p>Your message was NOT sent</p>
+            <p>@messageResponse.StatusMessage</p>
+        }
+    }
+    </div>
+
+<a href="@Url.Action("Logout", "Home", null, Request.Url.Scheme)"><i class="ms-Icon ms-Icon--x"></i><b>x</b> Disconnect
+
+
