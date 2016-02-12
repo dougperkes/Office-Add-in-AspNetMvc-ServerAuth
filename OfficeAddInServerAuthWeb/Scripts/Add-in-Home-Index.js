@@ -1,5 +1,6 @@
 ﻿/// <reference path="App.js" />
-
+/// <reference path="~/Scripts/jquery-2.2.0.intellisense.js" />
+/// <reference path="~/Scripts/_officeintellisense.js" />
 (function () {
     "use strict";
 
@@ -14,7 +15,6 @@
 
             hub.client.sendMessage = function (message) {
                 //first message must be the popupId
-                $("#messageLog").val($("#messageLog").val() + "\r\n" + message);
                 if (popupId == null) {
                     popupId = message;
                 } else {
@@ -23,12 +23,12 @@
                         //we now have a valid auth token in the database
                         hub.server.sendMessage(popupId, "close");
                         //redirect to the message controller. 
-                        window.location = '/message';
+                        window.location = "/message";
                     } else {
                         //we were unsuccessful in getting an auth token
                         hub.server.sendMessage(popupId, "close");
                         //show a message to the user
-                        app.showNotification('User authentication', 'Unable to successfully authenticate. Status is ' + result);
+                        app.showNotification("User authentication", "Unable to successfully authenticate. Status is " + result);
                     }
                 }
             }
@@ -41,11 +41,15 @@
                 //need to include the parentId in the state key so we can ensure we only send messages to the correct parent
                 var authState = { stateKey: stateKey, signalRHubId: parentId };
                 //the stateKey variable must be set on the parent page
-                var url = '/home/login?authState=' + encodeURIComponent(JSON.stringify(authState));
-                $("#loginPopupButton").click(function () {
-                    popupWindow = window.open(url, 'AuthPopup', 'width=500,height=500,centerscreen=1'); //,menubar=0,toolbar=0,location=0,personalbar=0,status=0,titlebar=0,dialog=1')
-                })
+                $("#loginO365PopupButton").click(function () {
+                    $("#connectContainer").hide();
+                    $("#waitContainer").show();
+                    var url = "/azureadauth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
+                    popupWindow = window.open(url, "AuthPopup", "width=500,height=500,centerscreen=1"); //,menubar=0,toolbar=0,location=0,personalbar=0,status=0,titlebar=0,dialog=1')
+                });
             });
+
+
         });
     };
 })();

@@ -177,6 +177,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AzureADAuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\SocketHub.cs" />
@@ -488,8 +489,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
-    <Content Include="Views\Home\AuthorizeComplete.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\AzureADAuth\AuthorizeComplete.cshtml" />
+    <Content Include="Views\AzureADAuth\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
