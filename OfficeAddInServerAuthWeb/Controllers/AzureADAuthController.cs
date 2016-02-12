@@ -23,7 +23,7 @@ namespace OfficeAddInServerAuth.Controllers
         public ActionResult Logout()
         {
             var userAuthStateId = Settings.GetUserAuthStateId(ControllerContext.HttpContext);
-            Data.DeleteUserSessionToken(userAuthStateId);
+            Data.DeleteUserSessionToken(userAuthStateId, Settings.AzureADAuthority);
             Response.Cookies.Clear();
 
             return Redirect(Settings.LogoutAuthority + logoutRedirectUri.ToString());

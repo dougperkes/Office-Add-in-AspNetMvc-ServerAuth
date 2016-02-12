@@ -29,7 +29,7 @@ namespace OfficeAddInServerAuth.Controllers
             EnsureUser(ref userInfo);
 
             // Send email using the Microsoft Graph API.
-            var token = Data.GetUserSessionToken(Settings.GetUserAuthStateId(ControllerContext.HttpContext));
+            var token = Data.GetUserSessionToken(Settings.GetUserAuthStateId(ControllerContext.HttpContext), Settings.AzureADAuthority);
             var sendMessageResult = await UnifiedApiHelper.SendMessageAsync(
                 token.AccessToken,
                 GenerateEmail(userInfo));
@@ -48,7 +48,7 @@ namespace OfficeAddInServerAuth.Controllers
         // Use the login user name or recipient email address if no user name.
         void EnsureUser(ref UserInfo userInfo)
         {
-            var token = Data.GetUserSessionToken(Settings.GetUserAuthStateId(ControllerContext.HttpContext));
+            var token = Data.GetUserSessionToken(Settings.GetUserAuthStateId(ControllerContext.HttpContext), Settings.AzureADAuthority);
             var currentUser = new UserInfo() {Name = token.Username, Address = token.Username};
 
 

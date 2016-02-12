@@ -14,7 +14,7 @@ namespace OfficeAddInServerAuth.Controllers
         public ActionResult Index()
         {
             var userAuthStateId = Settings.GetUserAuthStateId(ControllerContext.HttpContext);
-            if (Data.GetUserSessionToken(userAuthStateId) != null)
+            if (Data.GetUserSessionToken(userAuthStateId, Settings.AzureADAuthority) != null)
             {
                 return RedirectToAction("Index", "Message");
             }
