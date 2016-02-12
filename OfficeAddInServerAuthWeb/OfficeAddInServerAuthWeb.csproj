@@ -177,6 +177,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\GoogleAuthController.cs" />
     <Compile Include="Controllers\AzureADAuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -187,10 +188,10 @@
     <Compile Include="Helpers\Data.cs" />
     <Compile Include="Helpers\SessionKeys.cs" />
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="Helpers\UnifiedApiHelper.cs" />
+    <Compile Include="Helpers\GraphApiHelper.cs" />
     <Compile Include="Models\AddInContext.cs" />
     <Compile Include="Models\AuthState.cs" />
-    <Compile Include="Models\OAuthResult.cs" />
+    <Compile Include="Models\GoogleOAuthResult.cs" />
     <Compile Include="Models\SessionToken.cs" />
     <Compile Include="Models\UnifiedApiMessageModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -493,6 +494,8 @@
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\AzureADAuth\AuthorizeComplete.cshtml" />
     <Content Include="Views\AzureADAuth\Login.cshtml" />
+    <Content Include="Views\GoogleAuth\AuthorizeComplete.cshtml" />
+    <Content Include="Views\GoogleAuth\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

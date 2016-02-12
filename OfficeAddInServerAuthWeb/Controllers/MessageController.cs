@@ -30,7 +30,7 @@ namespace OfficeAddInServerAuth.Controllers
 
             // Send email using the Microsoft Graph API.
             var token = Data.GetUserSessionToken(Settings.GetUserAuthStateId(ControllerContext.HttpContext), Settings.AzureADAuthority);
-            var sendMessageResult = await UnifiedApiHelper.SendMessageAsync(
+            var sendMessageResult = await GraphApiHelper.SendMessageAsync(
                 token.AccessToken,
                 GenerateEmail(userInfo));
 

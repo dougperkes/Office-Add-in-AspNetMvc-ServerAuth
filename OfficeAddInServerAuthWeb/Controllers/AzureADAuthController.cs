@@ -26,12 +26,12 @@ namespace OfficeAddInServerAuth.Controllers
             Data.DeleteUserSessionToken(userAuthStateId, Settings.AzureADAuthority);
             Response.Cookies.Clear();
 
-            return Redirect(Settings.LogoutAuthority + logoutRedirectUri.ToString());
+            return Redirect(Settings.AzureADLogoutAuthority + logoutRedirectUri.ToString());
         }
 
         public ActionResult Login(string authState)
         {
-            if (string.IsNullOrEmpty(Settings.ClientId) || string.IsNullOrEmpty(Settings.ClientSecret))
+            if (string.IsNullOrEmpty(Settings.AzureADClientId) || string.IsNullOrEmpty(Settings.AzureADClientSecret))
             {
                 ViewBag.Message = "Please set your client ID and client secret in the Web.config file";
                 return View();
@@ -43,7 +43,7 @@ namespace OfficeAddInServerAuth.Controllers
             // Generate the parameterized URL for Azure login.
             Uri authUri = authContext.GetAuthorizationRequestURL(
                 Settings.GraphApiResource,
-                Settings.ClientId,
+                Settings.AzureADClientId,
                 loginRedirectUri,
                 UserIdentifier.AnyUser,
                 "state=" + authState);
@@ -63,7 +63,7 @@ namespace OfficeAddInServerAuth.Controllers
                 var authResult = await authContext.AcquireTokenByAuthorizationCodeAsync(
                     Request.Params["code"],                                         // the auth 'code' parameter from the Azure redirect.
                     loginRedirectUri,                                               // same redirectUri as used before in Login method.
-                    new ClientCredential(Settings.ClientId, Settings.ClientSecret), // use the client ID and secret to establish app identity.
+                    new ClientCredential(Settings.AzureADClientId, Settings.AzureADClientSecret), // use the client ID and secret to establish app identity.
                     Settings.GraphApiResource);                                     // provide the identifier of the resource we want to access
 
                 await SaveAuthToken(authState, authResult);

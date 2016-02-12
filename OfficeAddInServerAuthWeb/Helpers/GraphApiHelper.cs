@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OfficeAddInServerAuth.Helpers
 {
-    public class UnifiedApiHelper
+    public class GraphApiHelper
     {
         static MediaTypeWithQualityHeaderValue Json = new MediaTypeWithQualityHeaderValue("application/json");
 

@@ -19,7 +19,7 @@
                     popupId = message;
                 } else {
                     var result = message;
-                    if (result == "success") {
+                    if (result === "success") {
                         //we now have a valid auth token in the database
                         hub.server.sendMessage(popupId, "close");
                         //redirect to the message controller. 
@@ -38,18 +38,29 @@
                 parentId = $.connection.hub.id;
                 popupId = null;
 
+                //enable the login buttons
+                $(".popupButton").prop("disabled", false);
+
                 //need to include the parentId in the state key so we can ensure we only send messages to the correct parent
                 var authState = { stateKey: stateKey, signalRHubId: parentId };
                 //the stateKey variable must be set on the parent page
                 $("#loginO365PopupButton").click(function () {
-                    $("#connectContainer").hide();
-                    $("#waitContainer").show();
                     var url = "/azureadauth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
-                    popupWindow = window.open(url, "AuthPopup", "width=500,height=500,centerscreen=1"); //,menubar=0,toolbar=0,location=0,personalbar=0,status=0,titlebar=0,dialog=1')
+                    showLoginPopup(url);
+                });
+                $("#loginGooglePopupButton").click(function () {
+                    var url = "/googleauth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
+                    showLoginPopup(url);
                 });
             });
 
 
         });
+
+        function showLoginPopup(url) {
+            $("#connectContainer").hide();
+            $("#waitContainer").show();
+            popupWindow = window.open(url, "AuthPopup", "width=500,height=500,centerscreen=1"); //,menubar=0,toolbar=0,location=0,personalbar=0,status=0,titlebar=0,dialog=1')
+        }
     };
 })();
