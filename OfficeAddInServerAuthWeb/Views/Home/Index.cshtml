@@ -1,25 +1,16 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
-@if (!ViewBag.IsAuthenticated)
-{
-    <div id="connectContainer">
-        <p> Use the button below to connect to Office 365. </p>
-        <p>
-            <button id="loginO365PopupButton" class="ms-Button ms-Button--primary"><span class="ms-Button-label">Connect to Office 365</span></button>
-        </p>
-    </div>
-    <div id="waitContainer" style="display:none">
-        <div class="ms-Spinner"></div>
-        <p>Please complete the authentication in the pop-up window.</p>
-    </div>
-}
-else
-{
-    <p>Welcome! You are authenticated</p>
-    <p>@Html.ActionLink("Send a message", "Index", "Message")</p>
-}
+<div id="connectContainer">
+    <p> Use the button below to connect to Office 365. </p>
+    <p>
+        <button id="loginO365PopupButton" class="ms-Button ms-Button--primary"><span class="ms-Button-label">Connect to Office 365</span></button>
+    </p>
+</div>
+<div id="waitContainer" style="display:none">
+    <div class="ms-Spinner"></div>
+    <p>Please complete the authentication in the pop-up window.</p>
+</div>
 
 @section scripts {
     <script>

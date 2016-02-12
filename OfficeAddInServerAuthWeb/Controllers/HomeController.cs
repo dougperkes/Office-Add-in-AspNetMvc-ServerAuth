@@ -14,8 +14,11 @@ namespace OfficeAddInServerAuth.Controllers
         public ActionResult Index()
         {
             var userAuthStateId = Settings.GetUserAuthStateId(ControllerContext.HttpContext);
+            if (Data.GetUserSessionToken(userAuthStateId) != null)
+            {
+                return RedirectToAction("Index", "Message");
+            }
             ViewBag.StateKey = userAuthStateId;
-            ViewBag.IsAuthenticated = (Data.GetUserSessionToken(userAuthStateId) != null);
             return View();
         }
 
