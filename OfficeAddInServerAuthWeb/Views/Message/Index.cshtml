@@ -14,7 +14,7 @@
 <form>
     <p>
     <p>
-        You're now connected to Office 365!  Click <b>Send Mail</b> to send a message from your Office 365 account using unified API.
+        You're now connected to Office 365!  Click <b>Send Mail</b> to send a message from your Office 365 account using unified API. You will be automtically logged out after 2 minutes.
     </p>
     <b>To:</b> @Html.EditorFor(m => userInfo.Address, new { htmlAttributes = new { style = "Width:350px" } })
     </p>
@@ -43,3 +43,21 @@
 <a href="@Url.Action("Logout", "AzureADAuth", null, Request.Url.Scheme)"><i class="ms-Icon ms-Icon--x"></i> Disconnect</a>
 
 
+@section scripts {
+    <script>
+(function () {
+    "use strict";
+
+    // The initialize function must be run each time a new page is loaded
+    Office.initialize = function (reason) {
+        //set countown timer to force logout after 2 minutes of inactivity
+        var counter = setInterval(timer, 1000 * 60 * 2); //2 minutes
+        function timer() {
+            location.href = '@Url.Action("Logout", "AzureADAuth", null, Request.Url.Scheme)';
+        }
+    };
+})();
+
+
+    </script>
+}
