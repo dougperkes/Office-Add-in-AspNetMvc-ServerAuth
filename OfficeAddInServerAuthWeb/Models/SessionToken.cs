@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OfficeAddInServerAuth.Models
 {
@@ -12,11 +13,13 @@ namespace OfficeAddInServerAuth.Models
         /// <summary>
         /// This is the user SessionID
         /// </summary>
+        [Key, Column(Order = 1)]
         [MaxLength(36)]
         public string Id { get; set; }
-        public string AccessToken { get; set; }
+        [Key, Column(Order = 2)]
         [MaxLength(150)]
         public string Provider { get; set; }
+        public string AccessToken { get; set; }
         public DateTime CreatedOn { get; set; }
         [MaxLength(100)]
         public string Username { get; set; }

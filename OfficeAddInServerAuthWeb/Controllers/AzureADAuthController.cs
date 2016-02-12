@@ -95,7 +95,7 @@ namespace OfficeAddInServerAuth.Controllers
                     Id = authState.stateKey,
                     CreatedOn = DateTime.Now,
                     AccessToken = authResult.AccessToken,
-                    Provider = Settings.GraphApiResource,
+                    Provider = Settings.AzureADAuthority,
                     Username = username
                 };
                 db.SessionTokens.Add(token);

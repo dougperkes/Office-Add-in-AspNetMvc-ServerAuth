@@ -8,7 +8,7 @@ namespace OfficeAddInServerAuth.Models
 {
     public class AddInContext : DbContext
     {
-        public AddInContext() : base("AddInConext")
+        public AddInContext() : base("AddInContext")
         {
         }
 
