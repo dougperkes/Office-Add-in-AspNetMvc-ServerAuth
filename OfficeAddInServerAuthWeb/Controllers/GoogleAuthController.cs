@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -33,7 +34,7 @@ namespace OfficeAddInServerAuth.Controllers
 
         public ActionResult Login(string authState)
         {
-            if (string.IsNullOrEmpty(Settings.AzureADClientId) || string.IsNullOrEmpty(Settings.AzureADClientSecret))
+            if (string.IsNullOrEmpty(Settings.GoogleClientId) || string.IsNullOrEmpty(Settings.GoogleClientSecret))
             {
                 ViewBag.Message = "Please set your client ID and client secret in the Web.config file";
                 return View();
@@ -101,12 +102,27 @@ namespace OfficeAddInServerAuth.Controllers
         {
             using (var db = new AddInContext())
             {
+                var existingToken =
+                    await
+                        db.SessionTokens.FirstOrDefaultAsync(
+                            t => t.Provider == Settings.GoogleAuthority && t.Id == authState.stateKey);
+                if (existingToken != null)
+                {
+                    db.SessionTokens.Remove(existingToken);
+                }
+                string username = null;
+                var jwt = SessionToken.ParseJwtToken(authResult.id_token);
+                var emailClaim = jwt.Claims.FirstOrDefault(c => c.Type == "email");
+                if (emailClaim != null)
+                    username = emailClaim.Value;
+
                 var token = new SessionToken()
                 {
                     Id = authState.stateKey,
                     CreatedOn = DateTime.Now,
                     AccessToken = authResult.access_token,
                     Provider = Settings.GoogleAuthority,
+                    Username = username,
                 };
                 db.SessionTokens.Add(token);
                 await db.SaveChangesAsync();

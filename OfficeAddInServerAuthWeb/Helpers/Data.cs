@@ -18,6 +18,16 @@ namespace OfficeAddInServerAuth.Helpers
             return st;
         }
 
+        public static SessionToken GetUserSessionTokenAny(string userAuthSessionId)
+        {
+            SessionToken st = null;
+            using (var db = new AddInContext())
+            {
+                st = db.SessionTokens.FirstOrDefault(t => t.Id == userAuthSessionId);
+            }
+            return st;
+        }
+
         public static void DeleteUserSessionToken(string userAuthSessionId, string provider)
         {
             using (var db = new AddInContext())

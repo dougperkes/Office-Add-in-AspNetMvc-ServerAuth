@@ -14,12 +14,14 @@ namespace OfficeAddInServerAuth.Controllers
         public ActionResult Index()
         {
             var userAuthStateId = Settings.GetUserAuthStateId(ControllerContext.HttpContext);
+            //todo: add support for Google and other auth providers
             if (Data.GetUserSessionToken(userAuthStateId, Settings.AzureADAuthority) != null)
             {
                 return RedirectToAction("Index", "Message");
             }
             ViewBag.StateKey = userAuthStateId;
-            return View();
+            var tk = new SessionToken();
+            return View(tk);
         }
 
 
