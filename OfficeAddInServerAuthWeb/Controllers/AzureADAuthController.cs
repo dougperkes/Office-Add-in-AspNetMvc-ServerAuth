@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -84,12 +85,20 @@ namespace OfficeAddInServerAuth.Controllers
         {
             var idToken = SessionToken.ParseJwtToken(authResult.IdToken);
             string username = null;
-            var userNameClaim = idToken.Claims.FirstOrDefault(x => x.Type == "preferred_username");
+            var userNameClaim = idToken.Claims.FirstOrDefault(x => x.Type == "upn");
             if (userNameClaim != null)
                 username = userNameClaim.Value;
 
             using (var db = new AddInContext())
             {
+                var existingToken =
+                                await
+                                    db.SessionTokens.FirstOrDefaultAsync(
+                                        t => t.Provider == Settings.AzureADAuthority && t.Id == authState.stateKey);
+                if (existingToken != null)
+                {
+                    db.SessionTokens.Remove(existingToken);
+                }
                 var token = new SessionToken()
                 {
                     Id = authState.stateKey,
