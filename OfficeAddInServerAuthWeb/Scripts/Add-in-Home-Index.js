@@ -57,6 +57,11 @@
                     redirectTo = "/message/facebook";
                     showLoginPopup(url);
                 });
+                $("#loginDropBoxPopupButton").click(function () {
+                    var url = "/dropboxauth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
+                    redirectTo = "/message/dropbox";
+                    showLoginPopup(url);
+                });
             });
 
 

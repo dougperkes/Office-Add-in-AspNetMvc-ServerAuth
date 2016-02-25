@@ -1,0 +1,41 @@
+﻿@model OfficeAddInServerAuth.Models.DropBoxSpaceUsage
+@using OfficeAddInServerAuth.Helpers
+
+<h2>Your DropBox Space Usage</h2>
+<br />
+<canvas id="myChart" width="250" height="250"></canvas>
+<ul>
+    <li>Allocation Type: @Html.DisplayFor(m => Model.allocation.tag)</li>
+    <li>Used: @Model.used.ToFileSize()</li>
+    <li>Total Allocation: @Model.allocation.allocated.ToFileSize()</li>
+</ul>
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    <script>
+        (function() {
+            "use strict";
+
+            // The initialize function must be run each time a new page is loaded
+            Office.initialize = function(reason) {
+                var ctx = document.getElementById("myChart").getContext("2d");
+                var data = [
+                    {
+                        value: @Model.used,
+                        color: "#F7464A",
+                        highlight: "#FF5A5E",
+                        label: "Used @Model.used.ToFileSize()"
+                    },
+                    {
+                        value: @Model.remaining,
+                        color: "#46BFBD",
+                        highlight: "#5AD3D1",
+                        label: "Remaining @Model.remaining.ToFileSize()"
+                    }
+                ];
+                var myNewChart = new Chart(ctx).Doughnut(data);
+            };
+        })();
+
+    </script>
+}

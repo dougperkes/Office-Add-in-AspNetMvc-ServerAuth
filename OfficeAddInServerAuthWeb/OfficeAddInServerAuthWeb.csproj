@@ -188,6 +188,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FacebookAuthController.cs" />
+    <Compile Include="Controllers\DropBoxAuthController.cs" />
     <Compile Include="Controllers\GoogleAuthController.cs" />
     <Compile Include="Controllers\AzureADAuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -197,6 +198,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Data.cs" />
+    <Compile Include="Helpers\DropBoxApiHelper.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\FacebookApiHelper.cs" />
     <Compile Include="Helpers\GoogleApiHelper.cs" />
     <Compile Include="Helpers\SessionKeys.cs" />
@@ -204,6 +207,7 @@
     <Compile Include="Helpers\GraphApiHelper.cs" />
     <Compile Include="Models\AddInContext.cs" />
     <Compile Include="Models\AuthState.cs" />
+    <Compile Include="Models\DropBoxSpaceUsage.cs" />
     <Compile Include="Models\OAuthResult.cs" />
     <Compile Include="Models\SessionToken.cs" />
     <Compile Include="Models\UnifiedApiMessageModels.cs" />
@@ -512,6 +516,9 @@
     <Content Include="Views\FacebookAuth\AuthorizeComplete.cshtml" />
     <Content Include="Views\FacebookAuth\Login.cshtml" />
     <Content Include="Views\Message\Facebook.cshtml" />
+    <Content Include="Views\DropBoxAuth\AuthorizeComplete.cshtml" />
+    <Content Include="Views\DropBoxAuth\Login.cshtml" />
+    <None Include="Views\Message\DropBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,10 +3,13 @@ using OfficeAddInServerAuth.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Newtonsoft.Json;
 
 namespace OfficeAddInServerAuth.Controllers
 {
@@ -149,5 +152,11 @@ namespace OfficeAddInServerAuth.Controllers
             };
         }
 
+        public async Task<ActionResult> DropBox()
+        {
+            var token = Data.GetUserSessionToken(Settings.GetUserAuthStateId(ControllerContext.HttpContext), Settings.DropBoxAuthority);
+            var usage = await DropBoxApiHelper.GetDropBoxSpaceUsage(token);
+            return View(usage);
+        }
     }
 }

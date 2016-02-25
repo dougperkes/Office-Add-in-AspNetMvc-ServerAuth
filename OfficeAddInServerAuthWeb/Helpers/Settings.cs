@@ -23,8 +23,12 @@ namespace OfficeAddInServerAuth.Helpers
         public static string FacebookClientId => ConfigurationManager.AppSettings["Facebook:ClientID"];
         public static string FacebookClientSecret => ConfigurationManager.AppSettings["Facebook:ClientSecret"];
 
+        public static string DropBoxClientId => ConfigurationManager.AppSettings["DropBox:ClientID"];
+        public static string DropBoxClientSecret => ConfigurationManager.AppSettings["DropBox:ClientSecret"];
+
         public static string GoogleAuthority = @"https://accounts.google.com";
         public static string FacebookAuthority = "https://www.facebook.com/";
+        public static string DropBoxAuthority = "https://www.dropbox.com/";
 
         public static string GetUserAuthStateId(HttpContextBase ctx)
         {
