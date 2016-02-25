@@ -71,14 +71,14 @@ namespace OfficeAddInServerAuth.Controllers
 
                 using (var client = new HttpClient())
                 {
-                    GoogleOAuthResult oauthResult = null;
+                    OAuthResult oauthResult = null;
                     //Facebook uses a GET rather than a POST
                     using (var response = await client.GetAsync(url))
                     {
                         if (response.IsSuccessStatusCode)
                         {
                             var result = await response.Content.ReadAsStringAsync();
-                            oauthResult = JsonConvert.DeserializeObject<GoogleOAuthResult>(result);
+                            oauthResult = JsonConvert.DeserializeObject<OAuthResult>(result);
                             authState.authStatus = "success";
                         }
                     }
@@ -110,7 +110,7 @@ namespace OfficeAddInServerAuth.Controllers
             return RedirectToAction(nameof(AuthorizeComplete), new { authState = JsonConvert.SerializeObject(authState) });
         }
 
-        private static async Task SaveAuthToken(AuthState authState, GoogleOAuthResult authResult, FacebookUserProfile userProfile)
+        private static async Task SaveAuthToken(AuthState authState, OAuthResult authResult, FacebookUserProfile userProfile)
         {
             using (var db = new AddInContext())
             {

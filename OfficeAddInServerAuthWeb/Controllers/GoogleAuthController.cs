@@ -80,7 +80,7 @@ namespace OfficeAddInServerAuth.Controllers
                             if (response.IsSuccessStatusCode)
                             {
                                 var result = await response.Content.ReadAsStringAsync();
-                                var oauthResult = JsonConvert.DeserializeObject<GoogleOAuthResult>(result);
+                                var oauthResult = JsonConvert.DeserializeObject<OAuthResult>(result);
                                 await SaveAuthToken(authState, oauthResult);
                                 authState.authStatus = "success";
                             }
@@ -98,7 +98,7 @@ namespace OfficeAddInServerAuth.Controllers
             return RedirectToAction(nameof(AuthorizeComplete), new { authState = JsonConvert.SerializeObject(authState) });
         }
 
-        private static async Task SaveAuthToken(AuthState authState, GoogleOAuthResult authResult)
+        private static async Task SaveAuthToken(AuthState authState, OAuthResult authResult)
         {
             using (var db = new AddInContext())
             {

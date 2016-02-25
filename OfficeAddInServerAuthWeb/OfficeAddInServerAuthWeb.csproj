@@ -204,7 +204,7 @@
     <Compile Include="Helpers\GraphApiHelper.cs" />
     <Compile Include="Models\AddInContext.cs" />
     <Compile Include="Models\AuthState.cs" />
-    <Compile Include="Models\GoogleOAuthResult.cs" />
+    <Compile Include="Models\OAuthResult.cs" />
     <Compile Include="Models\SessionToken.cs" />
     <Compile Include="Models\UnifiedApiMessageModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
