@@ -12,7 +12,7 @@
 
             //setup the signalR hub
             var hub = $.connection.socketHub;
-
+            var redirectTo = "/message";
             hub.client.sendMessage = function (message) {
                 //first message must be the popupId
                 if (popupId == null) {
@@ -23,7 +23,7 @@
                         //we now have a valid auth token in the database
                         hub.server.sendMessage(popupId, "close");
                         //redirect to the message controller. 
-                        window.location = "/message";
+                        window.location = redirectTo;
                     } else {
                         //we were unsuccessful in getting an auth token
                         hub.server.sendMessage(popupId, "close");
@@ -52,6 +52,11 @@
                     var url = "/googleauth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
                     showLoginPopup(url);
                 });
+                $("#loginFacebookPopupButton").click(function () {
+                    var url = "/facebookauth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
+                    redirectTo = "/message/facebook";
+                    showLoginPopup(url);
+                });
             });
 
 
@@ -60,7 +65,7 @@
         function showLoginPopup(url) {
             $("#connectContainer").hide();
             $("#waitContainer").show();
-            popupWindow = window.open(url, "AuthPopup", "width=500,height=500,centerscreen=1"); //,menubar=0,toolbar=0,location=0,personalbar=0,status=0,titlebar=0,dialog=1')
+            popupWindow = window.open(url, "AuthPopup", "width=660,height=500,centerscreen=1"); //,menubar=0,toolbar=0,location=0,personalbar=0,status=0,titlebar=0,dialog=1')
         }
     };
 })();

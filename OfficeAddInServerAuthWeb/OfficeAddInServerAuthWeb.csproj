@@ -187,6 +187,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\FacebookAuthController.cs" />
     <Compile Include="Controllers\GoogleAuthController.cs" />
     <Compile Include="Controllers\AzureADAuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -196,6 +197,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Data.cs" />
+    <Compile Include="Helpers\FacebookApiHelper.cs" />
     <Compile Include="Helpers\GoogleApiHelper.cs" />
     <Compile Include="Helpers\SessionKeys.cs" />
     <Compile Include="Helpers\Settings.cs" />
@@ -507,6 +509,9 @@
     <Content Include="Views\AzureADAuth\Login.cshtml" />
     <Content Include="Views\GoogleAuth\AuthorizeComplete.cshtml" />
     <Content Include="Views\GoogleAuth\Login.cshtml" />
+    <Content Include="Views\FacebookAuth\AuthorizeComplete.cshtml" />
+    <Content Include="Views\FacebookAuth\Login.cshtml" />
+    <Content Include="Views\Message\Facebook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

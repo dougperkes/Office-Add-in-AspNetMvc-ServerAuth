@@ -22,6 +22,16 @@ namespace OfficeAddInServerAuth.Controllers
             return View();
         }
 
+        public ActionResult Facebook(SendMessageResponse sendMessageResponse, UserInfo userInfo)
+        {
+            EnsureUser(ref userInfo);
+
+            ViewBag.UserInfo = userInfo;
+            ViewBag.MessageResponse = sendMessageResponse;
+
+            return View();
+        }
+
 
         public async Task<ActionResult> SendMessageSubmit(UserInfo userInfo)
         {
@@ -44,6 +54,33 @@ namespace OfficeAddInServerAuth.Controllers
             // Reuse the Index view for messages (sent, not sent, fail) .
             // Redirect to tell the browser to call the app back via the Index method.
             return RedirectToAction(nameof(Index), new RouteValueDictionary(new Dictionary<string, object>{
+                { "Status", sendMessageResult.Status },
+                { "StatusMessage", sendMessageResult.StatusMessage },
+                { "Address", userInfo.Address },
+            }));
+        }
+
+
+        public async Task<ActionResult> FacebookSendMessageSubmit(UserInfo userInfo)
+        {
+            // After Index method renders the View, user clicks Send Mail, which comes in here.
+            EnsureUser(ref userInfo);
+            SendMessageResponse sendMessageResult = new SendMessageResponse();
+            // Send email using the Microsoft Graph API.
+            var token = Data.GetUserSessionTokenAny(Settings.GetUserAuthStateId(ControllerContext.HttpContext));
+
+            if (token.Provider == Settings.FacebookAuthority)
+            {
+                sendMessageResult =
+                    await FacebookApiHelper.PostMessageAsync(token.AccessToken, token.Username, Settings.MessageSubject);
+            }
+            else if (token.Provider == Settings.GoogleAuthority)
+            {
+                sendMessageResult = await GoogleApiHelper.SendMessageAsync(token.AccessToken, GenerateEmail(userInfo), token.Username);
+            }
+            // Reuse the Index view for messages (sent, not sent, fail) .
+            // Redirect to tell the browser to call the app back via the Index method.
+            return RedirectToAction(nameof(Facebook), new RouteValueDictionary(new Dictionary<string, object>{
                 { "Status", sendMessageResult.Status },
                 { "StatusMessage", sendMessageResult.StatusMessage },
                 { "Address", userInfo.Address },

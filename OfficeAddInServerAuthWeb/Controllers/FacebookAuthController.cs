@@ -40,13 +40,14 @@ namespace OfficeAddInServerAuth.Controllers
                 return View();
             }
 
-            var scope = "email profile https://www.Facebookapis.com/auth/gmail.send";
-            var authUrl =  "https://accounts.Facebook.com/o/oauth2/v2/auth?" +
-                          $"scope={Uri.EscapeDataString(scope)}&" +
-                          $"state={Uri.EscapeDataString(authState)}&" +
-                          $"redirect_uri={loginRedirectUri}&" +
-                           "response_type=code&" +
-                          $"client_id={Settings.FacebookClientId}";
+            var scope = "public_profile,email,publish_actions";
+            var authUrl = "https://www.facebook.com/dialog/oauth?" +
+                            $"client_id={Settings.FacebookClientId}" +
+                            $"&redirect_uri={loginRedirectUri}/" + 
+                            $"&state={Uri.EscapeDataString(authState)}" +
+                            "&response_type=code" +
+                            "&display=popup" + 
+                            $"&scope={scope}";
 
             // Redirect the browser to the login page, then come back to the Authorize method below.
             return Redirect(authUrl);
@@ -59,32 +60,43 @@ namespace OfficeAddInServerAuth.Controllers
             try
             {
                 // Get the token.
-                const string url = "https://www.Facebookapis.com/oauth2/v4/token";
                 var authCode = Request.Params["code"];
-                var postbody = $"code={authCode}&" +
-                               "grant_type=authorization_code&" +
-                               $"client_id={Settings.FacebookClientId}&" +
-                               $"client_secret={Settings.FacebookClientSecret}&" +
-                               $"redirect_uri={loginRedirectUri}";
+                var url = "https://graph.facebook.com/v2.3/oauth/access_token?" +
+                          $"client_id={Settings.FacebookClientId}" +
+                          $"&redirect_uri={loginRedirectUri}/" +
+                          $"&client_secret={Settings.FacebookClientSecret}" +
+                          $"&code={authCode}";
 
                 authState.authStatus = "failure";
 
                 using (var client = new HttpClient())
                 {
-                    using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+                    GoogleOAuthResult oauthResult = null;
+                    //Facebook uses a GET rather than a POST
+                    using (var response = await client.GetAsync(url))
                     {
-                        
-                        request.Content = new StringContent(postbody, Encoding.UTF8, "application/x-www-form-urlencoded");
-                        using (var response = await client.SendAsync(request))
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var result = await response.Content.ReadAsStringAsync();
+                            oauthResult = JsonConvert.DeserializeObject<GoogleOAuthResult>(result);
+                            authState.authStatus = "success";
+                        }
+                    }
+
+                    if (oauthResult != null && authState.authStatus == "success")
+                    {
+                        url = $"https://graph.facebook.com/v2.5/me?access_token={oauthResult.access_token}&fields=name%2Cid%2Cemail%2Cfirst_name%2Clast_name&format=json";
+                        using (var response = await client.GetAsync(url))
                         {
                             if (response.IsSuccessStatusCode)
                             {
                                 var result = await response.Content.ReadAsStringAsync();
-                                var oauthResult = JsonConvert.DeserializeObject<GoogleOAuthResult>(result);
-                                await SaveAuthToken(authState, oauthResult);
-                                authState.authStatus = "success";
+                                var userData = JsonConvert.DeserializeObject<FacebookUserProfile>(result);
+                                await SaveAuthToken(authState, oauthResult, userData);
+
                             }
                         }
+
                     }
                 }
 
@@ -98,7 +110,7 @@ namespace OfficeAddInServerAuth.Controllers
             return RedirectToAction(nameof(AuthorizeComplete), new { authState = JsonConvert.SerializeObject(authState) });
         }
 
-        private static async Task SaveAuthToken(AuthState authState, GoogleOAuthResult authResult)
+        private static async Task SaveAuthToken(AuthState authState, GoogleOAuthResult authResult, FacebookUserProfile userProfile)
         {
             using (var db = new AddInContext())
             {
@@ -110,11 +122,6 @@ namespace OfficeAddInServerAuth.Controllers
                 {
                     db.SessionTokens.Remove(existingToken);
                 }
-                string username = null;
-                var jwt = SessionToken.ParseJwtToken(authResult.id_token);
-                var emailClaim = jwt.Claims.FirstOrDefault(c => c.Type == "email");
-                if (emailClaim != null)
-                    username = emailClaim.Value;
 
                 var token = new SessionToken()
                 {
@@ -122,7 +129,7 @@ namespace OfficeAddInServerAuth.Controllers
                     CreatedOn = DateTime.Now,
                     AccessToken = authResult.access_token,
                     Provider = Settings.FacebookAuthority,
-                    Username = username,
+                    Username = userProfile.id,
                 };
                 db.SessionTokens.Add(token);
                 await db.SaveChangesAsync();
@@ -133,6 +140,15 @@ namespace OfficeAddInServerAuth.Controllers
         {
             ViewBag.AuthState = authState;
             return View();
+        }
+
+        private class FacebookUserProfile
+        {
+            public string name { get; set; }
+            public string id { get; set; }
+            public string email { get; set; }
+            public string first_name { get; set; }
+            public string last_name { get; set; }   
         }
     }
 }

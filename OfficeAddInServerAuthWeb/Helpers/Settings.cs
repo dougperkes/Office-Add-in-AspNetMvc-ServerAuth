@@ -20,7 +20,11 @@ namespace OfficeAddInServerAuth.Helpers
         public static string GoogleClientId => ConfigurationManager.AppSettings["Google:ClientID"];
         public static string GoogleClientSecret => ConfigurationManager.AppSettings["Google:ClientSecret"];
 
+        public static string FacebookClientId => ConfigurationManager.AppSettings["Facebook:ClientID"];
+        public static string FacebookClientSecret => ConfigurationManager.AppSettings["Facebook:ClientSecret"];
+
         public static string GoogleAuthority = @"https://accounts.google.com";
+        public static string FacebookAuthority = "https://www.facebook.com/";
 
         public static string GetUserAuthStateId(HttpContextBase ctx)
         {

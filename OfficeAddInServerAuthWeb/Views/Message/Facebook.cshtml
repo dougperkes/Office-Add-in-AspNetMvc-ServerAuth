@@ -14,14 +14,12 @@
 <form>
     <p>
     <p>
-        You're now connected!  Click <b>Send Mail</b> to send a message from your account. You will be automtically logged out after 2 minutes.
+        You're now connected!  Click <b>Post Message</b> to send a post a message to your account. You will be automtically logged out after 2 minutes.
     </p>
-    <b>To:</b> @Html.EditorFor(m => userInfo.Address, new { htmlAttributes = new { style = "Width:350px" } })
-    </p>
-    <br />
 
     <p>
-        <button formaction="@Url.Content("~/Message/SendMessageSubmit")">Send Mail</button>
+        @Html.HiddenFor(m => userInfo.Address)
+        <button formaction="@Url.Content("~/Message/FacebookSendMessageSubmit")">Post Message</button>
     </p>
 
 </form>
@@ -30,7 +28,7 @@
 <div>
     @{  if (messageResponse.Status == OfficeAddInServerAuth.Models.SendMessageStatusEnum.Sent)
         {
-        <p>Successfully sent an email to @userInfo.Address!</p>
+            <p>Successfully posted a message to Facebook!</p>
         }
         else if (messageResponse.Status == OfficeAddInServerAuth.Models.SendMessageStatusEnum.Fail)
         {
@@ -38,9 +36,9 @@
             <p>@messageResponse.StatusMessage</p>
         }
     }
-    </div>
+</div>
 
-<a href="@Url.Action("Logout", "AzureADAuth", null, Request.Url.Scheme)"><i class="ms-Icon ms-Icon--x"></i> Disconnect</a>
+<a href="@Url.Action("Logout", "FacebookAuth", null, Request.Url.Scheme)"><i class="ms-Icon ms-Icon--x"></i> Disconnect</a>
 
 
 @section scripts {
@@ -53,7 +51,7 @@
         //set countown timer to force logout after 2 minutes of inactivity
         var counter = setInterval(timer, 1000 * 60 * 2); //2 minutes
         function timer() {
-            location.href = '@Url.Action("Logout", "AzureADAuth", null, Request.Url.Scheme)';
+            location.href = '@Url.Action("Logout", "FacebookAuth", null, Request.Url.Scheme)';
         }
     };
 })();
