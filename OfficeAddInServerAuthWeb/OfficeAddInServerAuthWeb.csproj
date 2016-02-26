@@ -219,6 +219,11 @@
     <Content Include="Content\Close.png" />
     <Content Include="Content\contoso_logo.png" />
     <Content Include="Content\OfficeThemes.css" />
+    <Content Include="Content\icons\dropbox.png" />
+    <Content Include="Content\icons\facebook.png" />
+    <Content Include="Content\icons\google.png" />
+    <Content Include="Content\icons\outlook.png" />
+    <Content Include="Content\icons\windows 8.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

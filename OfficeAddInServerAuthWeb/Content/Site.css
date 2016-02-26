@@ -27,3 +27,30 @@
         top: 5px;
         cursor: pointer;
     }
+
+
+    /* Social media icons at login
+----------------------------------------------------------*/
+.loginButtons a {
+    border: none;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+    margin-right: 5px;
+    float: left;
+}
+.icon-o365 {
+    background: url('/content/icons/outlook.png');
+}
+.icon-microsoft {
+    background: url('/content/icons/windows 8.png');
+}
+.icon-facebook {
+    background: url('/content/icons/facebook.png');
+}
+.icon-dropbox {
+    background: url('/content/icons/dropbox.png');
+}
+.icon-google {
+    background: url('/content/icons/google.png');
+}

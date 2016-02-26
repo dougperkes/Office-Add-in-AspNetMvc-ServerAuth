@@ -1,16 +1,28 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<div id="connectContainer">
-    <p> Use the button below to connect to Office 365. </p>
-
-    <div><button id="loginO365PopupButton" disabled="true" class="popupButton ms-Button ms-Button--primary"><span class="ms-Button-label">Connect to Office 365</span></button></div>
-    <div><button id="loginAAD2PopupButton" disabled="true" class="popupButton ms-Button ms-Button--primary"><span class="ms-Button-label">Connect to Azure AD v2</span></button></div>
-    <div><button id="loginGooglePopupButton" disabled="true" class="popupButton ms-Button ms-Button--primary"><span class="ms-Button-label">Connect to Google</span></button></div>
-    <div><button id="loginFacebookPopupButton" disabled="true" class="popupButton ms-Button ms-Button--primary"><span class="ms-Button-label">Connect to Facebook</span></button></div>
-    <div><button id="loginDropBoxPopupButton" disabled="true" class="popupButton ms-Button ms-Button--primary"><span class="ms-Button-label">Connect to DropBox</span></button></div>
-
+<div class="ms-Grid" id="connectContainer">
+    <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+            <p> Use one of the buttons below to connect to login. </p>
+        </div>
+    </div>
+    <div class="ms-Grid-row loginButtons">
+        <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+            <a id="loginO365PopupButton" class="icon-o365" title="Log in using your Office 365 account"></a>
+            <a id="loginAAD2PopupButton" class="icon-microsoft" title="Log in using your Microsoft or Office 365 account"></a>
+            <a id="loginGooglePopupButton" class="icon-google" title="Log in using your Google account"></a>
+            <a id="loginFacebookPopupButton" class="icon-facebook" title="Log in using your Facebook account"></a>
+            <a id="loginDropBoxPopupButton" class="icon-dropbox" title="Log in using your Dropbox account"></a>
+        </div>
+    </div>
+    <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+            <div style="padding-top:10em" class="ms-font-mi">Login images courtesy of <a href="http://vegodesign.com">vegodesign.com</a> and <a href="http://vervex.deviantart.com/art/Circle-Icons-Pack-371172325">martz</a></div>
+        </div>
+    </div>
 </div>
+
 <div id="waitContainer" style="display:none">
     <div class="ms-Spinner"></div>
     <p>Please complete the authentication in the pop-up window.</p>
