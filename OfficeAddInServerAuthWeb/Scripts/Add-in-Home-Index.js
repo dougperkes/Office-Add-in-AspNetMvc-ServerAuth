@@ -48,6 +48,10 @@
                     var url = "/azureadauth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
                     showLoginPopup(url);
                 });
+                $("#loginAAD2PopupButton").click(function () {
+                    var url = "/azuread2auth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
+                    showLoginPopup(url);
+                });
                 $("#loginGooglePopupButton").click(function () {
                     var url = "/googleauth/login?authState=" + encodeURIComponent(JSON.stringify(authState));
                     showLoginPopup(url);

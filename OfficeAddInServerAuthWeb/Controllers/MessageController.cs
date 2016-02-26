@@ -44,7 +44,7 @@ namespace OfficeAddInServerAuth.Controllers
             // Send email using the Microsoft Graph API.
             var token = Data.GetUserSessionTokenAny(Settings.GetUserAuthStateId(ControllerContext.HttpContext));
 
-            if (token.Provider == Settings.AzureADAuthority)
+            if (token.Provider == Settings.AzureADAuthority || token.Provider == Settings.AzureAD2Authority)
             {
                 sendMessageResult = await GraphApiHelper.SendMessageAsync(
                     token.AccessToken,
@@ -76,10 +76,6 @@ namespace OfficeAddInServerAuth.Controllers
             {
                 sendMessageResult =
                     await FacebookApiHelper.PostMessageAsync(token.AccessToken, token.Username, Settings.MessageSubject);
-            }
-            else if (token.Provider == Settings.GoogleAuthority)
-            {
-                sendMessageResult = await GoogleApiHelper.SendMessageAsync(token.AccessToken, GenerateEmail(userInfo), token.Username);
             }
             // Reuse the Index view for messages (sent, not sent, fail) .
             // Redirect to tell the browser to call the app back via the Index method.
