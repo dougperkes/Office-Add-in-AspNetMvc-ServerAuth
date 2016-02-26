@@ -2,7 +2,7 @@
 
 A goal of many Microsoft Office add-ins is to improve user productivity. You can get closer to achieving this goal with the help of third-party services. Most of today's services implement the OAuth 2.0 specification to allow other applications into the user data.
 
-
+![](http://i.imgur.com/fdwI6Ym.png)
 
 Keep in mind that Office add-ins run on a variety of platforms and devices, which presents a great opportunity for your add-in. You must be aware, however, of the following considerations when you try to make OAuth flows work across a combination of platforms and technologies.
 
@@ -27,11 +27,14 @@ Your add-in must reliably identify the browser session that started the OAuth fl
 
 As an additional security measure, this sample deletes tokens from the database within two minutes of requesting them. You should implement token storage policies according to your application requirements.
 
+## Sample Implementation Notes
+
+In this sample I have chosen to implement manual OAuth2 flows for each of the authentication providers. This allows the sample to maintain consistency in the implementation while being able to account for the variations in each of the OAuth2 implementations for each of the providers. 
 ## Prerequisites
 
 To use the Office add-in Server Authentication sample, you need the following:
 
 * Visual Studio 2015 with Office Developer Tools
 * Office 365 Developer Subscription
-* Valid Google Account
+* Valid Google, Facebook, Dropbox, and Microsoft Account (optional)
 

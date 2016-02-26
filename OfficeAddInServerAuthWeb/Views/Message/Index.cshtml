@@ -13,14 +13,14 @@
 
 <form>
     <p>
-    <p>
         You're now connected!  Click <b>Send Mail</b> to send a message from your account. You will be automtically logged out after 2 minutes.
     </p>
-    <b>To:</b> @Html.EditorFor(m => userInfo.Address, new { htmlAttributes = new { style = "Width:350px" } })
-    </p>
-    <br />
 
     <p>
+        <b>To:</b> @Html.EditorFor(m => userInfo.Address, new { htmlAttributes = new { style = "Width:350px" } })
+
+        <br />
+
         <button formaction="@Url.Content("~/Message/SendMessageSubmit")">Send Mail</button>
     </p>
 
