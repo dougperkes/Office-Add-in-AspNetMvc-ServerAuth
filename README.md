@@ -30,6 +30,7 @@ As an additional security measure, this sample deletes tokens from the database 
 ## Sample Implementation Notes
 
 In this sample I have chosen to implement manual OAuth2 flows for each of the authentication providers. This allows the sample to maintain consistency in the implementation while being able to account for the variations in each of the OAuth2 implementations for each of the providers. 
+
 ## Prerequisites
 
 To use the Office add-in Server Authentication sample, you need the following:
@@ -38,3 +39,90 @@ To use the Office add-in Server Authentication sample, you need the following:
 * Office 365 Developer Subscription
 * Valid Google, Facebook, Dropbox, and Microsoft Account (optional)
 
+**Important note:** You must register the application with at least one of the following providers to be able to use this sample. 
+
+### Register Application with Azure AD
+
+Register a web application in [Azure Management portal](https://manage.windowsazure.com) with the following configuration:
+
+Parameter | Value
+--------- | --------
+Name | Add-In ServerAuth sample
+Type | Web application and/or web API
+Sign-on URL | https://localhost:44301/AzureADAuth/Authorize
+App ID URI | https://[Your Azure AD Tenant name]/AddInServerAuth 
+
+Once you register your application, take note of the *client ID* and *client secret* values.
+
+In the permissions section, add the Graph API and select the Send mail as a user permission.
+
+### Register Application with Azure AD v2 App Model
+
+Register an application in the [Microsoft app registration portal](https://apps.dev.microsoft.com) with the following configuration:
+
+Parameter | Value
+----------|--------
+Name | AddInServerAuth
+Redirect URI | https://localhost:44301/AzureAD2Auth/Authorize
+
+Generate a new password and take note of the *client ID* and *Password/Public Key*.
+
+### Register Application with Google
+
+Register an application in the [Google Developers Console](https://console.developers.google.com) with the following configuration:
+
+Parameter | Value
+--------- | --------
+Project name | ServerAuth sample (optional)
+Credentials | OAuth client ID
+Application type | Web application
+Authorized redirect URIs | https://localhost:44301/GoogleAuth/Authorize
+
+Once you register your application, take note of the *client ID* and *client secret* values.
+
+### Register Application with Facebook
+
+Register an application in the [facebook for developers portal](https://developers.facebook.com) with the following configuration:
+
+Parameter | Value
+--------- | --------
+Project name | Office Add-in ServerAuth sample (optional)
+Application type | Web application
+Site Url | https://localhost:44301
+Valid OAuth redirect URIs | https://localhost:44301/FacebookAuth/Authorize
+Client OAuth Login | Yes
+Web OAuth Login | Yes
+
+Once you register your application, take note of the *App ID* and *App Secret* values.
+
+### Register Application with Dropbox
+
+Register an application in the [Dropbox developer portal](https://www.dropbox.com/developers) with the following configuration:
+
+Parameter | Value
+--------- | -------
+Project name | Office Add-in ServerAuth sample
+OAuth 2 redirect URI | https://localhost:44301/DropBoxAuth/Authorize
+
+## Configure and run the web app
+
+Open the project in Visual Studio and open the OfficeAddInServerAuthWeb\Web.config file. Update the Client ID and Client Secret values for each of the authenication provider entries in the file.
+
+```xml
+    <add key="AAD:ClientID" value="" />
+    <add key="AAD:ClientSecret" value="" />
+    <add key="Google:ClientID" value="" />
+    <add key="Google:ClientSecret" value="" />
+    <add key="Facebook:ClientID" value=""/>
+    <add key="Facebook:ClientSecret" value=""/>
+    <add key="DropBox:ClientID" value=""/>
+    <add key="DropBox:ClientSecret" value=""/>
+    <add key="AAD2:ClientID" value="" />
+    <add key="AAD2:ClientSecret" value="" />
+```
+
+### Run the web app
+
+In Visual Studio, press F5 to start debugging the add-in. Excel desktop will launch and the add-in will automatically load. Click on any of the authentication provider images to login.
+
+![](http://i.imgur.com/fdwI6Ym.png)
