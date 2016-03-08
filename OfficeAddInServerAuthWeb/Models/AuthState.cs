@@ -8,7 +8,6 @@ namespace OfficeAddInServerAuth.Models
     public class AuthState
     {
         public string stateKey { get; set; }
-        public string signalRHubId { get; set; }
         public string authStatus { get; set; }
     }
 }

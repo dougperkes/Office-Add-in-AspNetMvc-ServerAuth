@@ -35,7 +35,7 @@ namespace OfficeAddInServerAuth.Controllers
 
         public ActionResult Login(string authState)
         {
-            if (string.IsNullOrEmpty(Settings.AzureADClientId) || string.IsNullOrEmpty(Settings.AzureADClientSecret))
+            if (string.IsNullOrEmpty(Settings.AzureAD2ClientId) || string.IsNullOrEmpty(Settings.AzureAD2ClientSecret))
             {
                 ViewBag.Message = "Please set your client ID and client secret in the Web.config file";
                 return View();
