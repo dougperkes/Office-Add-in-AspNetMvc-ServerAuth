@@ -4,7 +4,7 @@
 (function () {
     "use strict";
     var _dlg;
-
+    var redirectTo = "/message";
     // The initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
         $(document).ready(function () {
@@ -46,11 +46,11 @@
         if (arg.message === "success") {
             //we now have a valid auth token in the database
             _dlg.close();
-            window.location = redirectTo;
+            window.location.href = redirectTo;
         } else {
             //something went wrong with authentication
             _dlg.close();
-            app.showNotification("User authentication", "Unable to successfully authenticate. Status is " + result);
+            app.showNotification("User authentication", "Unable to successfully authenticate. Status is " + arg.message);
         }
     }
 
@@ -62,11 +62,9 @@
         Office.context.ui.displayDialogAsync(fullUrl,
             { height: 40, width: 40, requireHTTPS: true },
             function (result) {
-                if (!_dlg) {
-                    console.log("dialog has initialized. wiring up events");
-                    _dlg = result.value;
-                    _dlg.addEventHandler(Microsoft.Office.WebExtension.EventType.DialogMessageReceived, processMessage);
-                }
+                console.log("dialog has initialized. wiring up events");
+                _dlg = result.value;
+                _dlg.addEventHandler(Microsoft.Office.WebExtension.EventType.DialogMessageReceived, processMessage);
             });
 
     }

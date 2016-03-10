@@ -98,7 +98,12 @@ namespace OfficeAddInServerAuth.Controllers
                 System.Diagnostics.Trace.WriteLine(ex.ToString());
                 authState.authStatus = "failure";
             }
-            return RedirectToAction(nameof(AuthorizeComplete), new { authState = JsonConvert.SerializeObject(authState) });
+            //instead of doing a server-side redirect, we have to do a client-side redirect to get around
+            //some issues with the display dialog API not getting properly wired up after a server-side redirect
+            var redirectUrl = Url.Action(nameof(AuthorizeComplete), new { authState = JsonConvert.SerializeObject(authState) });
+            ViewBag.redirectUrl = redirectUrl;
+            return View();
+            //return RedirectToAction(nameof(AuthorizeComplete), new { authState = JsonConvert.SerializeObject(authState) });
         }
 
 

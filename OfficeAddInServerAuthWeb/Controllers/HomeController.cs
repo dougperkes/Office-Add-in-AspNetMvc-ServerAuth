@@ -24,7 +24,5 @@ namespace OfficeAddInServerAuth.Controllers
             return View(tk);
         }
 
-
-        
     }
 }
